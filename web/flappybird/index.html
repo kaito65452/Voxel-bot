@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flappy Bird</title>
+<style>
+* { box-sizing: border-box; }
+html, body { margin:0; width:100%; height:520px; }
+body {
+  height:520px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:linear-gradient(180deg,#67c8ed 0%,#b8e9ff 68%,#d9a24a 68%,#d9a24a 100%);
+  overflow:auto;
+}
+.card {
+  width:min(100%,390px);
+  padding:24px 20px;
+  text-align:center;
+  color:#17324d;
+  border-radius:30px;
+  background:rgba(255,255,255,.92);
+  border:1px solid rgba(255,255,255,.9);
+  box-shadow:0 25px 70px rgba(0,0,0,.25);
+  animation:appear .8s ease;
+}
+@keyframes appear { from {opacity:0; transform:translateY(25px) scale(.95)} to {opacity:1; transform:translateY(0) scale(1)} }
+.bird { font-size:58px; line-height:1; animation:float 1.5s ease-in-out infinite; }
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
+h1 { margin:10px 0 5px; font-size:32px; }
+.sub { margin:0 0 14px; color:#52708a; }
+.game {
+  position:relative;
+  width:100%;
+  height:210px;
+  overflow:hidden;
+  border-radius:18px;
+  background:#67c8ed;
+  border:3px solid rgba(23,50,77,.15);
+}
+.game:after {
+  content:"";
+  position:absolute;
+  left:0; right:0; bottom:0;
+  height:28px;
+  background:#d9a24a;
+  border-top:8px solid #83c84b;
+}
+.player {
+  position:absolute;
+  left:32%;
+  top:45%;
+  font-size:30px;
+  line-height:1;
+  z-index:3;
+}
+.pipe { position:absolute; width:34px; background:#48b848; border:3px solid #238b32; z-index:2; }
+.pipe.top { right:18%; top:0; height:62px; }
+.pipe.bottom { right:18%; bottom:28px; height:72px; }
+.score { position:absolute; left:0; right:0; top:8px; color:white; font-size:27px; font-weight:800; text-shadow:0 2px 3px #333; z-index:4; }
+.panel { margin-top:14px; padding:12px; border-radius:15px; background:#f4f8fb; }
+button { border:0; border-radius:10px; background:#ffc928; padding:11px 22px; font-size:17px; font-weight:700; }
+.tip { margin:10px 0 0; font-size:12px; color:#668095; }
+</style>
+</head>
+<body>
+<main class="card">
+  <div class="bird">🐤</div>
+  <h1>Flappy Bird!</h1>
+  <p class="sub">Voxel Mini Game</p>
+  <div class="game" id="game">
+    <div class="score" id="score">0</div>
+    <div class="pipe top"></div>
+    <div class="pipe bottom"></div>
+    <div class="player" id="player">🐤</div>
+  </div>
+  <div class="panel">
+    <button id="start">Mulai</button>
+    <div class="tip" id="status">Ketuk tombol untuk mencoba.</div>
+  </div>
+</main>
+</body>
+</html>
+

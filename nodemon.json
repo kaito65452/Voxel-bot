@@ -1,0 +1,3 @@
+{
+  "ignore": ["voxel_session", "node_modules", "database", "logs"]
+}

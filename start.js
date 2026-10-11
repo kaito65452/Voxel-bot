@@ -1,0 +1,42 @@
+import path from 'path';
+import chalk from 'chalk';
+import { spawn } from 'child_process';
+import { fileURLToPath } from 'url';
+import { watchFile, unwatchFile } from 'fs'
+import 'dotenv/config'
+// voxel.js TIDAK diimpor di sini: file ini cuma launcher (spawn index.js),
+// dan mengimpornya cuma efek samping tidak perlu (bot jalan di child process).
+// Dulu ada import itu tanpa dipakai.
+
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+function start() {
+	let args = [path.join(__dirname, 'index.js'), ...process.argv.slice(2)]
+	let p = spawn(process.argv[0], args, {
+		stdio: ['inherit', 'inherit', 'inherit', 'ipc']
+	}).on('message', data => {
+		if (data === 'reset') {
+			console.log(chalk.yellow.bold('[BOT] Restarting...'))
+			p.kill();
+			setTimeout(() => {
+				start()
+			}, 3000);
+		} else if (data === 'uptime') {
+			p.send(process.uptime())
+		} else if (data === 'exit') {
+			process.exit(0)
+		}
+	}).on('exit', code => {
+		if (code !== 0) {
+			console.error(chalk.red.bold(`[BOT] Exited with code: ${code}`));
+			setTimeout(() => {
+				start()
+			}, 3000);
+		} else {
+			console.log(chalk.green.bold('[BOT] Process exited cleanly. Goodbye!'))
+			process.exit(0)
+		}
+	})
+}
+start()

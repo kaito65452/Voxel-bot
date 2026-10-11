@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Happy Birthday 🎂</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            width: 100%;
+            height: 520px;
+        }
+
+        body {
+            height: 520px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            font-family:
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at top,
+                    #ffb6d9,
+                    #9b7cff 45%,
+                    #3c246b
+                );
+
+            overflow: auto;
+        }
+
+        .card {
+            width: min(100%, 390px);
+
+            padding: 32px 24px;
+
+            text-align: center;
+
+            color: white;
+
+            border-radius: 30px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255, 255, 255, .24),
+                    rgba(255, 255, 255, .08)
+                );
+
+            border: 1px solid
+                rgba(255, 255, 255, .35);
+
+            box-shadow:
+                0 25px 70px
+                rgba(0, 0, 0, .30);
+
+            backdrop-filter: blur(15px);
+
+            animation:
+                appear .8s ease;
+        }
+
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: translateY(25px) scale(.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .cake {
+            font-size: 75px;
+
+            animation:
+                float 2.5s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        h1 {
+            margin: 12px 0 8px;
+
+            font-size: clamp(30px, 9vw, 42px);
+        }
+
+        .name {
+            margin: 0;
+
+            font-size: 24px;
+
+            font-weight: 700;
+        }
+
+        .message {
+            margin: 22px 0;
+
+            line-height: 1.7;
+
+            color:
+                rgba(255, 255, 255, .9);
+        }
+
+        .heart {
+            font-size: 30px;
+
+            margin-top: 15px;
+        }
+
+        .footer {
+            margin-top: 25px;
+
+            font-size: 12px;
+
+            letter-spacing: 2px;
+
+            opacity: .7;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="card">
+
+        <div class="cake">
+            🎂
+        </div>
+
+        <h1>
+            Happy Birthday!
+        </h1>
+
+        <p class="name">
+            Untuk Kamu 💖
+        </p>
+
+        <p class="message">
+            Semoga hari spesialmu dipenuhi
+            kebahagiaan, tawa, dan banyak
+            hal indah yang akan selalu
+            kamu ingat. ✨
+        </p>
+
+        <div class="heart">
+            💗 🎉 💗
+        </div>
+
+        <div class="footer">
+            MADE WITH LOVE • VOXEL
+        </div>
+
+    </main>
+
+</body>
+</html>

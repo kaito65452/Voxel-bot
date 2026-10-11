@@ -1,0 +1,90 @@
+import { JavaPingClient } from 'craftping';
+import '../../settings.js';
+
+const client = new JavaPingClient();
+
+async function tryIp() {
+	try {
+		const response = await client.ping(
+			global.ipserver,
+			global.portserver,
+			{ signal: AbortSignal.timeout(5000) }
+		);
+		return {
+			online: true,
+			maxPlayer: response.players.max,
+			onlinePlayer: response.players.online,
+			status: '🟢 Online'
+		};
+	} catch (error) {
+		console.error('[CRAFTPING ERROR]');
+		console.error(error);
+		console.error('name:', error?.name);
+		console.error('message:', error?.message);
+		console.error('code:', error?.code);
+
+		if (error.name === 'TimeoutError' || error.name === 'AbortError') {
+			return { online: false, maxPlayer: 0, onlinePlayer: 0, status: '⚠️ Timeout / Lag / Connection' };
+		}
+		return { online: false, maxPlayer: 0, onlinePlayer: 0, status: '🔴 Offline' };
+	}
+}
+
+async function start(ctx) {
+	const { m, voxel } = ctx;
+	const { online, maxPlayer, onlinePlayer, status } = await tryIp();
+
+	// Judul & pesan diambil dari settings.js -- ganti di sana, bukan di sini,
+	// biar gampang dipakai lagi buat server lain tanpa nyentuh command ini.
+	const title = global.serverName || 'MINECRAFT SERVER';
+
+	// serverWelcome boleh berapa baris aja; tiap baris otomatis dikasih
+	// prefix "╏" biar gaya visualnya tetap konsisten kayak sebelumnya.
+	const welcomeLines = String(global.serverWelcome || 'Selamat datang di server kami!')
+		.split('\n')
+		.map(line => `╏${line}`)
+		.join('\n');
+
+	// Kalau server lagi offline/timeout, ajakan "yuk gabung main" jadi kurang
+	// pas -- diganti pemberitahuan status aja biar gak nyasar.
+	const footer = online
+		? `《୨୧✿💬 Pesan⭒:》\n${welcomeLines}`
+		: `《୨୧✿⚠️ Info⭒:》\n╏Server lagi belum bisa dijangkau.\n╏Coba cek lagi beberapa saat lagi ya~`;
+
+	await voxel.sendMessage(
+		m.chat,
+		{
+			text: `💠 ⟡✿『  ${title}  』⭒✧
+╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+╭━━━━━━━━━━━━━━━
+ ┃🌐  Server IP୨୧
+ ┃╰─ ${global.ipserver}:${global.portserver}
+ ┃
+ ┃〔👥  PLAYERS〕
+ ┃    ╰─ ${onlinePlayer} / ${maxPlayer}ꕥ
+ ┃
+ ┃〔🟢  STATUS〕
+ ┃    ╰─ ${status}☆
+╰━━━━━━━━━━━━━━━
+══════════ ◈ ══════════
+${footer}`
+		},
+		{ quoted: m }
+	);
+}
+
+export default {
+	name: 'ip',
+	aliases: ['server'],
+
+	async execute(ctx) {
+		try {
+			return await start(ctx);
+		} catch (error) {
+			console.error('[IP COMMAND ERROR]', error);
+			const { m } = ctx;
+			return await m.reply('❌ Terjadi kesalahan saat mengecek server.');
+		}
+	}
+};
+

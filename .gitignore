@@ -1,0 +1,16 @@
+voxel_session/
+voxel_session
+.env
+.env.*
+node_modules/
+nazedev/
+database/
+yarn.lock
+.DS_Store
+*.log
+
+# yt-dlp wrapper build
+yt-dlp/target/
+downloads/
+cookies.txt
+cookies/
